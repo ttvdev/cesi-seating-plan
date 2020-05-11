@@ -4,9 +4,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.io.Serializable;
+import java.util.Date;
 
 @Entity
-public class User {
+public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -15,6 +17,10 @@ public class User {
     private String name;
 
     private String email;
+
+    private Date entryDate;
+
+    private Date exitDate;
 
     public Integer getId() {
         return id;
@@ -40,4 +46,19 @@ public class User {
         this.id = id;
     }
 
+    public Date getEntryDate() {
+        return entryDate;
+    }
+
+    public void setEntryDate(Date entryDate) {
+        this.entryDate = entryDate;
+    }
+
+    public Date getExitDate() {
+        return exitDate;
+    }
+
+    public void setExitDate(Date exitDate) {
+        this.exitDate = exitDate;
+    }
 }
