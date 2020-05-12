@@ -8,11 +8,11 @@
 		<version>2.2.2.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.example</groupId>
-	<artifactId>spring-boot</artifactId>
+	<groupId>com.cesi</groupId>
+	<artifactId>seating-plan</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>spring-boot</name>
-	<description>Demo project for Spring Boot</description>
+	<name>seating-plan</name>
+	<description>Project Seating Plan</description>
 
 	<properties>
 		<java.version>1.8</java.version>
@@ -30,6 +30,7 @@
 			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
 		<!-- end::actuator[] -->
+
 
 		<!-- tag::tests[] -->
 		<dependency>
