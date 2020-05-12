@@ -1,9 +1,9 @@
 package com.cesi.seatingplan.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -21,6 +21,19 @@ public class User implements Serializable {
     private Date entryDate;
 
     private Date exitDate;
+
+    @JsonBackReference
+    @OneToOne()
+    @JoinColumn(name = "office_id", referencedColumnName = "id")
+    private Office office;
+
+    public User(){}
+    public User(String n, String e, Date entry, Date exit) {
+        this.name = n;
+        this.email = e;
+        this.entryDate = entry;
+        this.exitDate = exit;
+    }
 
     public Integer getId() {
         return id;
@@ -60,5 +73,13 @@ public class User implements Serializable {
 
     public void setExitDate(Date exitDate) {
         this.exitDate = exitDate;
+    }
+
+    public Office getOffice() {
+        return office;
+    }
+
+    public void setOffice(Office office) {
+        this.office = office;
     }
 }
