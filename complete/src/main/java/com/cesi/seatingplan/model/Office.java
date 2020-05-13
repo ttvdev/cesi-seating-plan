@@ -1,4 +1,4 @@
-package com.cesi.seatingplan.entity;
+package com.cesi.seatingplan.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 

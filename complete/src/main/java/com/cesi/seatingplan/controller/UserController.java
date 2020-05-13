@@ -1,79 +1,50 @@
 package com.cesi.seatingplan.controller;
 
-import com.cesi.seatingplan.entity.Office;
-import com.cesi.seatingplan.entity.User;
-import com.cesi.seatingplan.repository.OfficeRepository;
+import com.cesi.seatingplan.model.User;
 import com.cesi.seatingplan.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
-import java.util.Optional;
 
-@RestController
-@RequestMapping(path="/user")
+@Controller
 public class UserController {
 
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private OfficeRepository officeRepository;
+    @RequestMapping("/newUser")
+    public String showNewUserPage(Model model) {
+        User user = new User();
+        model.addAttribute("user", user);
 
-    @PostMapping(path="/create")
-    public User createNewUser(@RequestBody User newUser) {
-        return userRepository.save(newUser);
+        return "newUser";
     }
 
-    @GetMapping(path="/{id}")
-    public User getUser(@PathVariable Integer id) {
-        return userRepository.findById(id).get();
+    @RequestMapping(value = "/saveUser", method = RequestMethod.POST)
+    public String saveUser(@ModelAttribute("user") User user) {
+        userRepository.save(user);
+
+        return "redirect:/";
     }
 
-    @GetMapping(path="/all")
-    public Iterable<User> getAllUsers() { return userRepository.findAll(); }
+    @RequestMapping("/editUser/{id}")
+    public ModelAndView showEditUserPage(@PathVariable(name = "id") int id) {
+        ModelAndView mav = new ModelAndView("editUser");
+        User user = userRepository.findById(id).get();
+        mav.addObject("user", user);
 
-    @PutMapping(path="/edit/{id}")
-    public User editUser(@RequestBody User newUser, @PathVariable Integer id) {
-        return userRepository.findById(id).map(
-            user -> {
-                user.setName(newUser.getName());
-                user.setEmail(newUser.getEmail());
-                user.setEntryDate(newUser.getEntryDate());
-                user.setExitDate(newUser.getExitDate());
-                user.setOffice(newUser.getOffice());
-                return userRepository.save(user);
-            }).orElseGet(() -> {
-            newUser.setId(id);
-            return userRepository.save(newUser);
-        });
+        return mav;
     }
 
-    @DeleteMapping(path="/delete/{id}")
-    public String deleteUser(@PathVariable Integer id) {
+    @RequestMapping("/deleteUser/{id}")
+    public String deleteUser(@PathVariable(name = "id") int id) {
         userRepository.deleteById(id);
-        return "Deleled";
+        return "redirect:/";
     }
-
-/*    @PostMapping(path="/office/{id}")
-    public Office addUserToOffice(@PathVariable Integer id, @RequestBody User newUser) {
-
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid user Id: " + id));
-
-
-        if (user.getOffice() != null) {
-            Office office = officeRepository.findById(user.getOffice().getId())
-                    .orElseThrow(() -> new IllegalArgumentException("Invalid office Id: " + id));
-            if (office.getFree()) {
-                user.setOffice(newUser.getOffice());
-                office.setFree(false);
-                office.setBusyUntil(user.getExitDate());
-                userRepository.save(user);
-                return officeRepository.save(office);
-            }
-        }
-
-        Office officeFree = officeRepository.findFirstByFree();
-        return officeFree;
-    }*/
 }

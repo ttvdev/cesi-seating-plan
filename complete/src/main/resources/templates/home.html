@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Seatingplan</title>
+</head>
+<body>
+
+<div align="center">
+    <h1>La liste des bureaux</h1>
+    <p><a href="/newOffice">Ajouter Bureau</a></p>
+    <br/><br/>
+    <table border="1" cellpadding="10">
+        <thead>
+        <tr>
+            <th>Identifiant</th>
+            <th>Nom</th>
+<!--            <th>Libre</th>-->
+<!--            <th>Occupé par</th>
+            <th>Jusqu'au</th>-->
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr th:each="office : ${listOffices}">
+            <td th:text="${office.id}">Identifiant</td>
+            <td th:text="${office.name}">Nom</td>
+<!--            <td th:text="${office.free}">Libre</td>-->
+<!--            <td th:text="${office.user.name}">Occupé par</td>
+            <td th:datetime="${office.busyUntil}">Jusqu'au</td>-->
+            <td>
+                <a th:href="@{'/editOffice/' + ${office.id}}">Edit</a>
+                &nbsp;&nbsp;&nbsp;
+                <a th:href="@{'/deleteOffice/' + ${office.id}}">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div align="center">
+    <h1>La liste des collaborateurs</h1>
+    <p><a href="/newUser">Ajouter Collaborateur</a></p>
+    <br/><br/>
+    <table border="1" cellpadding="10">
+        <thead>
+        <tr>
+            <th>Identifiant</th>
+            <th>Nom</th>
+            <th>Email</th>
+            <th>Date d'entrée</th>
+            <th>Date de sortie</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${listUsers}">
+            <td th:text="${user.id}">Identifiant</td>
+            <td th:text="${user.name}">Nom</td>
+            <td th:text="${user.email}">Email</td>
+            <td th:text="${{user.entryDate}}">Date d'entrée</td>
+            <td th:text="${{user.exitDate}}">Date de sortie</td>
+            <td>
+                <a th:href="@{'/editUser/' + ${user.id}}">Edit</a>
+                &nbsp;&nbsp;&nbsp;
+                <a th:href="@{'/deleteUser/' + ${user.id}}">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<!--<p>Get your hello <a href="/hello">here</a></p>-->
+</body>
+</html>

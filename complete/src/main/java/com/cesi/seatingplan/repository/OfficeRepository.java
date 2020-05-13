@@ -1,6 +1,6 @@
 package com.cesi.seatingplan.repository;
 
-import com.cesi.seatingplan.entity.Office;
+import com.cesi.seatingplan.model.Office;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

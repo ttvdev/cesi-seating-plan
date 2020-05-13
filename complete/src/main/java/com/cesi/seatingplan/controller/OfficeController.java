@@ -1,51 +1,50 @@
 package com.cesi.seatingplan.controller;
 
-import com.cesi.seatingplan.entity.Office;
+import com.cesi.seatingplan.model.Office;
 import com.cesi.seatingplan.repository.OfficeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
-import java.util.Date;
 
-@RestController
-@RequestMapping(path="/office")
+@Controller
 public class OfficeController {
 
     @Autowired
     private OfficeRepository officeRepository;
 
-    @PostMapping(path="/add")
-    public Office addNewOffice(@RequestBody Office newOffice) {
-        return officeRepository.save(newOffice);
+    @RequestMapping("/newOffice")
+    public String showNewOfficePage(Model model) {
+        Office office = new Office();
+        model.addAttribute("office", office);
+
+        return "newOffice";
     }
 
-    @GetMapping(path="/{id}")
-    public Office getOffice(@PathVariable Integer id) {
-        return officeRepository.findById(id).get();
+    @RequestMapping(value = "/saveOffice", method = RequestMethod.POST)
+    public String saveOffice(@ModelAttribute("office") Office office) {
+        officeRepository.save(office);
+
+        return "redirect:/";
     }
 
-    @GetMapping(path="/all")
-    public Iterable<Office> getAllOffices() { return officeRepository.findAll(); }
+    @RequestMapping("/editOffice/{id}")
+    public ModelAndView showEditOfficePage(@PathVariable(name = "id") int id) {
+        ModelAndView mav = new ModelAndView("editOffice");
+        Office office = officeRepository.findById(id).get();
+        mav.addObject("office", office);
 
-    @PutMapping(path = "/edit/{id}")
-    public Office editOffice(@RequestBody Office newOffice, @PathVariable Integer id) {
-        return officeRepository.findById(id).map(
-                office -> {
-                    office.setName(newOffice.getName());
-                    office.setIdBuilding(newOffice.getIdBuilding());
-                    office.setUser(newOffice.getUser());
-                    office.setFree(newOffice.getFree());
-                    office.setUser(newOffice.getUser());
-                    return officeRepository.save(office);
-                }).orElseGet(() -> {
-            newOffice.setId(id);
-            return officeRepository.save(newOffice);
-        });
+        return mav;
     }
 
-    @DeleteMapping("/delete/{id}")
-    public String deleteOffice(@PathVariable Integer id) {
+    @RequestMapping("/deleteOffice/{id}")
+    public String deleteOffice(@PathVariable(name = "id") int id) {
         officeRepository.deleteById(id);
-        return "Deleled";
+        return "redirect:/";
     }
 }

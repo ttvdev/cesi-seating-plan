@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Seatingplan</title>
+</head>
+<body>
+<p><a href="/">Liste des office</a></p>
+<div align="center">
+    <h1>Modifier bureau</h1>
+    <br />
+    <form action="#" th:action="@{/saveOffice}" th:object="${office}"
+          method="post">
+
+        <table border="0" cellpadding="10">
+            <tr>
+                <td>Bureau identifant:</td>
+                <td>
+                    <input type="text" th:field="*{id}" readonly="readonly" />
+                </td>
+            </tr>
+            <tr>
+                <td>Nom du bureau:</td>
+                <td><input type="text" th:field="*{name}" /></td>
+            </tr>
+            <tr>
+                <td colspan="2"><button type="submit">Save</button> </td>
+            </tr>
+        </table>
+    </form>
+</div>
+</body>
+</html>

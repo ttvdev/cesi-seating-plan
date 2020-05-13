@@ -1,6 +1,7 @@
-package com.cesi.seatingplan.entity;
+package com.cesi.seatingplan.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import org.springframework.format.annotation.DateTimeFormat;
 
 
 import javax.persistence.*;
@@ -18,8 +19,10 @@ public class User implements Serializable {
 
     private String email;
 
+    @DateTimeFormat(pattern="dd/MM/YYYY")
     private Date entryDate;
 
+    @DateTimeFormat(pattern="dd/MM/YYYY")
     private Date exitDate;
 
     @JsonBackReference
