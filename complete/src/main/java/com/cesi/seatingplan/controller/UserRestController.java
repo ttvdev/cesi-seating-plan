@@ -51,26 +51,4 @@ public class UserRestController {
         return "Deleled";
     }
 
-/*    @PostMapping(path="/office/{id}")
-    public Office addUserToOffice(@PathVariable Integer id, @RequestBody User newUser) {
-
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid user Id: " + id));
-
-
-        if (user.getOffice() != null) {
-            Office office = officeRepository.findById(user.getOffice().getId())
-                    .orElseThrow(() -> new IllegalArgumentException("Invalid office Id: " + id));
-            if (office.getFree()) {
-                user.setOffice(newUser.getOffice());
-                office.setFree(false);
-                office.setBusyUntil(user.getExitDate());
-                userRepository.save(user);
-                return officeRepository.save(office);
-            }
-        }
-
-        Office officeFree = officeRepository.findFirstByFree();
-        return officeFree;
-    }*/
 }
